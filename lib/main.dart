@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:larix/screens/login_screen.dart';
-// import 'package:larix/screens/login_screen.dart';
-import 'package:larix/screens/signup_screen.dart';
+import 'package:larix/screens/login/login_screen.dart';
+import 'package:larix/screens/signup/signup_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,12 +13,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Larix',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blueGrey,
+        primarySwatch: Colors.blue,
       ),
-      home: const SignupScreen(),
+      home: const LoginScreen(),
       routes: {
         '/login': (BuildContext context) {
           return const LoginScreen();

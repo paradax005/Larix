@@ -1,18 +1,19 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:larix/components/divider_bar.dart';
+import 'package:larix/components/google_button.dart';
 
-class SignupScreen extends StatefulWidget {
-  const SignupScreen({Key? key}) : super(key: key);
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
-  State<SignupScreen> createState() => _SignupScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
+class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   bool _hidePassword = true;
-  bool _hideRPassword = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,11 +26,13 @@ class _SignupScreenState extends State<SignupScreen> {
             maxWidth: MediaQuery.of(context).size.width,
           ),
           decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(
-                'assets/images/bg-register.png',
-              ),
-              fit: BoxFit.cover,
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.centerRight,
+              colors: [
+                Color.fromRGBO(93, 12, 224, 1.0),
+                Color.fromRGBO(122, 33, 224, 1.0),
+              ],
             ),
           ),
           child: Column(
@@ -40,7 +43,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 flex: 2,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
-                    vertical: 16,
+                    vertical: 36,
                     horizontal: 24,
                   ),
                   child: Column(
@@ -68,11 +71,23 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
               ),
               Expanded(
-                flex: 7,
+                flex: 5,
                 child: Container(
                   width: double.infinity,
                   decoration: const BoxDecoration(
-                    color: Color.fromRGBO(255, 255, 255, 0.4),
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomLeft,
+                      colors: [
+                        Color.fromRGBO(191, 156, 242, 1),
+                        Color.fromRGBO(182, 144, 240, 1),
+                        Color.fromRGBO(165, 121, 238, 1),
+                        Color.fromRGBO(153, 104, 236, 1),
+                        Color.fromRGBO(142, 90, 234, 1),
+                        Color.fromRGBO(130, 73, 232, 1),
+                        Color.fromRGBO(114, 49, 229, 1),
+                      ],
+                    ),
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(48),
                       topRight: Radius.circular(48),
@@ -85,14 +100,13 @@ class _SignupScreenState extends State<SignupScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         const Text(
-                          "Get Started",
+                          "Welcome Back!",
                           style: TextStyle(
                             color: Colors.white,
                             // fontWeight: FontWeight.bold,
                             fontFamily: "Poppins",
-                            fontSize: 18,
+                            fontSize: 26,
                           ),
-                          textScaleFactor: 2,
                         ),
                         const SizedBox(
                           height: 20,
@@ -102,42 +116,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           child: Column(
                             children: [
                               SizedBox(
-                                height: 52,
-                                child: TextFormField(
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return "Please enter a valid username !";
-                                    }
-                                  },
-                                  keyboardType: TextInputType.emailAddress,
-                                  textInputAction: TextInputAction.done,
-                                  maxLines: 1,
-                                  decoration: InputDecoration(
-                                    labelStyle: const TextStyle(
-                                      color: Colors.black87,
-                                    ),
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    label: const Text("Username"),
-                                    prefixIcon: const Icon(Icons.person),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    focusColor: Colors.white,
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                      borderSide: const BorderSide(
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              SizedBox(
-                                height: 52,
+                                height: 50,
                                 child: TextFormField(
                                   validator: (value) =>
                                       EmailValidator.validate(value!)
@@ -172,7 +151,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                 height: 20,
                               ),
                               SizedBox(
-                                height: 52,
+                                height: 50,
                                 child: TextFormField(
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
@@ -190,7 +169,8 @@ class _SignupScreenState extends State<SignupScreen> {
                                     filled: true,
                                     fillColor: Colors.white,
                                     label: const Text("Password"),
-                                    prefixIcon: const Icon(Icons.lock),
+                                    prefixIcon:
+                                        const Icon(Icons.email_outlined),
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20),
                                     ),
@@ -220,62 +200,11 @@ class _SignupScreenState extends State<SignupScreen> {
                                 height: 20,
                               ),
                               SizedBox(
-                                height: 52,
-                                child: TextFormField(
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return "please enter your password";
-                                    }
-                                    return null;
-                                  },
-                                  obscureText: _hideRPassword,
-                                  textInputAction: TextInputAction.done,
-                                  maxLines: 1,
-                                  decoration: InputDecoration(
-                                    labelStyle: const TextStyle(
-                                      color: Colors.black54,
-                                    ),
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    label: const Text("Confirm Password"),
-                                    // hintText: "confirm password",
-                                    prefixIcon: const Icon(Icons.lock_open),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    suffixIcon: IconButton(
-                                      icon: Icon(
-                                        _hideRPassword
-                                            ? Icons.visibility_off
-                                            : Icons.visibility,
-                                      ),
-                                      onPressed: () {
-                                        setState(() {
-                                          _hideRPassword = !_hideRPassword;
-                                        });
-                                      },
-                                    ),
-                                    focusColor: Colors.white,
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                      borderSide: const BorderSide(
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              SizedBox(
                                 width: double.infinity,
                                 height: 40,
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    // if (_formKey.currentState!.validate()) {}
-                                    // Navigator.pushReplacementNamed(
-                                    //     context, '/home');
+                                    if (_formKey.currentState!.validate()) {}
                                   },
                                   style: ElevatedButton.styleFrom(
                                       primary:
@@ -284,7 +213,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                         borderRadius: BorderRadius.circular(24),
                                       )),
                                   child: const Text(
-                                    "Sign Up",
+                                    "Login",
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16,
@@ -294,29 +223,40 @@ class _SignupScreenState extends State<SignupScreen> {
                                 ),
                               ),
                               const SizedBox(
-                                height: 10,
+                                height: 20,
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
+                                    const Text(
+                                      'Forgot Password?',
+                                      style: TextStyle(
+                                        color: Color.fromRGBO(220, 200, 248, 1),
+                                      ),
+                                    ),
                                     Row(
                                       children: [
                                         const Text(
-                                          'Already Have an account?',
+                                          'New to larix?',
                                           style: TextStyle(
                                             color: Color.fromRGBO(
-                                                220, 200, 248, 1),
+                                              220,
+                                              200,
+                                              248,
+                                              1,
+                                            ),
                                           ),
                                         ),
                                         TextButton(
                                           onPressed: () {
                                             Navigator.pushReplacementNamed(
-                                                context, '/login');
+                                                context, '/register');
                                           },
                                           child: const Text(
-                                            'Sign In',
+                                            'Get Started',
                                             style: TextStyle(
                                               color: Colors.white,
                                             ),
@@ -327,77 +267,21 @@ class _SignupScreenState extends State<SignupScreen> {
                                   ],
                                 ),
                               ),
-                              // const SizedBox(
-                              //   height: 10,
-                              // ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      margin: const EdgeInsets.only(
-                                        left: 10.0,
-                                        right: 20.0,
-                                      ),
-                                      child: const Divider(
-                                        color: Colors.black,
-                                        height: 18,
-                                      ),
-                                    ),
-                                  ),
-                                  const Text(
-                                    " OR ",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      margin: const EdgeInsets.only(
-                                        left: 20.0,
-                                        right: 10.0,
-                                      ),
-                                      child: const Divider(
-                                        color: Colors.white,
-                                        height: 18,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
                               const SizedBox(
-                                height: 10,
+                                height: 30,
                               ),
-                              OutlinedButton.icon(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                  primary: Colors.transparent,
-                                  minimumSize: const Size(double.infinity, 40),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  side: const BorderSide(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                icon: const FaIcon(
-                                  FontAwesomeIcons.google,
-                                  color: Colors.red,
-                                ),
-                                label: const Text(
-                                  'Sign Up with Google',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
+                              const DividerBar(),
                               const SizedBox(
-                                height: 8,
+                                height: 30,
+                              ),
+                              const GoogleButton(),
+                              const SizedBox(
+                                height: 30,
                               ),
                               const Text(
                                 "Ⓒ 2022 ETC All Right Required",
                                 style: TextStyle(
-                                  color: Colors.black87,
-                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromRGBO(180, 142, 220, 1),
                                 ),
                                 textScaleFactor: 0.8,
                               ),
@@ -416,3 +300,4 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 }
+
