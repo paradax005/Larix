@@ -1,7 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:larix/components/divider_bar.dart';
-import 'package:larix/components/google_button.dart';
+import 'package:larix/components/header_input_text.dart';
+import 'package:larix/utils/constant.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -11,8 +11,57 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  // Background input Color email
+  Color _colorEmail = const Color(0xFFBE9CF2);
+  Color _hintColorEmail = kHintTextColor2;
+  Color _inputColorEmail = kHintTextColor2;
+
+  // Background input Color email
+  Color _colorPassword = const Color(0xFFBE9CF2);
+  Color _hintColorPassword = kHintTextColor2;
+  Color _inputColorPassword = kHintTextColor2;
+
+  // Controle State Of The input if pressed or not !!
+  final FocusNode _focusNodeEmail = FocusNode();
+  final FocusNode _focusNodePassword = FocusNode();
   final _formKey = GlobalKey<FormState>();
-  bool _hidePassword = true;
+  // bool _hidePassword = true;
+
+  @override
+  void initState() {
+    _focusNodeEmail.addListener(() {
+      if (_focusNodeEmail.hasFocus) {
+        setState(() {
+          _colorEmail = Colors.white;
+          _hintColorEmail = kHintTextColor1;
+          _inputColorEmail = kHintTextColor1;
+        });
+      } else {
+        setState(() {
+          _colorEmail = const Color(0xFFBE9CF2);
+          _hintColorEmail = kHintTextColor2;
+          _inputColorEmail = kHintTextColor2;
+        });
+      }
+    });
+    // TODO: implement initState
+    super.initState();
+    _focusNodePassword.addListener(() {
+      if (_focusNodePassword.hasFocus) {
+        setState(() {
+          _colorPassword = Colors.white;
+          _hintColorPassword = kHintTextColor1;
+          _inputColorPassword = kHintTextColor1;
+        });
+      } else {
+        setState(() {
+          _colorPassword = const Color(0xFFBE9CF2);
+          _hintColorPassword = kHintTextColor2;
+          _inputColorPassword = kHintTextColor2;
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                flex: 2,
+                flex: 3,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                     vertical: 36,
@@ -51,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: const [
                       Text(
-                        'larix',
+                        'Larix',
                         textScaleFactor: 3,
                         style: TextStyle(
                           color: Colors.white,
@@ -63,15 +112,16 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: TextStyle(
                           color: Colors.white,
                           fontFamily: 'Poppins',
-                          fontSize: 11,
+                          fontSize: 12,
                         ),
+                        textScaleFactor: 0.9,
                       ),
                     ],
                   ),
                 ),
               ),
               Expanded(
-                flex: 5,
+                flex: 7,
                 child: Container(
                   width: double.infinity,
                   decoration: const BoxDecoration(
@@ -89,8 +139,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(48),
-                      topRight: Radius.circular(48),
+                      topLeft: Radius.circular(60),
+                      topRight: Radius.circular(60),
                     ),
                   ),
                   child: Padding(
@@ -109,40 +159,41 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         const SizedBox(
-                          height: 20,
+                          height: 50,
                         ),
                         Form(
                           key: _formKey,
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              const HeaderInputText(
+                                inputHeader: "Email or Username",
+                              ),
                               SizedBox(
-                                height: 50,
+                                height: 45,
                                 child: TextFormField(
-                                  validator: (value) =>
-                                      EmailValidator.validate(value!)
-                                          ? null
-                                          : "Please enter a valid email",
+                                  validator: (value) {
+                                    EmailValidator.validate(value!)
+                                        ? null
+                                        : "Please enter a valid email";
+                                  },
+                                  onChanged: (value) => print(value),
+                                  focusNode: _focusNodeEmail,
                                   keyboardType: TextInputType.emailAddress,
-                                  textInputAction: TextInputAction.done,
-                                  maxLines: 1,
+                                  style: TextStyle(
+                                    color: _inputColorEmail,
+                                  ),
                                   decoration: InputDecoration(
-                                    labelStyle: const TextStyle(
-                                      color: Colors.black87,
-                                    ),
                                     filled: true,
-                                    fillColor: Colors.white,
-                                    label: const Text("Email"),
-                                    prefixIcon:
-                                        const Icon(Icons.email_outlined),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
+                                    fillColor: _colorEmail,
+                                    hintText: "ETCAdmin@etc.info",
+                                    hintStyle: TextStyle(
+                                      color: _hintColorEmail,
+                                      fontSize: 12,
                                     ),
-                                    focusColor: Colors.white,
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                      borderSide: const BorderSide(
-                                        color: Colors.white,
-                                      ),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(7),
+                                      borderSide: BorderSide.none,
                                     ),
                                   ),
                                 ),
@@ -150,8 +201,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               const SizedBox(
                                 height: 20,
                               ),
+                              const HeaderInputText(
+                                inputHeader: "Password",
+                              ),
                               SizedBox(
-                                height: 50,
+                                height: 45,
                                 child: TextFormField(
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
@@ -159,45 +213,29 @@ class _LoginScreenState extends State<LoginScreen> {
                                     }
                                     return null;
                                   },
-                                  obscureText: _hidePassword,
-                                  textInputAction: TextInputAction.done,
-                                  maxLines: 1,
+                                  onChanged: (value) => print(value),
+                                  focusNode: _focusNodePassword,
+                                  obscureText: true,
+                                  style: TextStyle(
+                                    color: _inputColorPassword,
+                                  ),
                                   decoration: InputDecoration(
-                                    labelStyle: const TextStyle(
-                                      color: Colors.black54,
-                                    ),
                                     filled: true,
-                                    fillColor: Colors.white,
-                                    label: const Text("Password"),
-                                    prefixIcon:
-                                        const Icon(Icons.email_outlined),
+                                    fillColor: _colorPassword,
+                                    hintText: "****************",
+                                    hintStyle: TextStyle(
+                                      color: _hintColorPassword,
+                                      fontSize: 13,
+                                    ),
                                     border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    suffixIcon: IconButton(
-                                      icon: Icon(
-                                        _hidePassword
-                                            ? Icons.visibility_off
-                                            : Icons.visibility,
-                                      ),
-                                      onPressed: () {
-                                        setState(() {
-                                          _hidePassword = !_hidePassword;
-                                        });
-                                      },
-                                    ),
-                                    focusColor: Colors.white,
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                      borderSide: const BorderSide(
-                                        color: Colors.white,
-                                      ),
+                                      borderRadius: BorderRadius.circular(7),
+                                      borderSide: BorderSide.none,
                                     ),
                                   ),
                                 ),
                               ),
                               const SizedBox(
-                                height: 20,
+                                height: 50,
                               ),
                               SizedBox(
                                 width: double.infinity,
@@ -234,7 +272,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     const Text(
                                       'Forgot Password?',
                                       style: TextStyle(
-                                        color: Color.fromRGBO(220, 200, 248, 1),
+                                        color: Color.fromRGBO(220, 220, 248, 1),
                                       ),
                                     ),
                                     Row(
@@ -243,11 +281,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                           'New to larix?',
                                           style: TextStyle(
                                             color: Color.fromRGBO(
-                                              220,
-                                              200,
-                                              248,
-                                              1,
-                                            ),
+                                                220, 220, 248, 1),
                                           ),
                                         ),
                                         TextButton(
@@ -268,22 +302,17 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               ),
                               const SizedBox(
-                                height: 30,
+                                height: 40,
                               ),
-                              const DividerBar(),
-                              const SizedBox(
-                                height: 30,
-                              ),
-                              const GoogleButton(),
-                              const SizedBox(
-                                height: 30,
-                              ),
-                              const Text(
-                                "Ⓒ 2022 ETC All Right Required",
-                                style: TextStyle(
-                                  color: Color.fromRGBO(180, 142, 220, 1),
+                              const Center(
+                                child: Text(
+                                  "Ⓒ  2022 ETC All Right Required",
+                                  style: TextStyle(
+                                    // color: Color.fromRGBO(180, 142, 220, 1),
+                                    color: Color(0xFFD5C7DF),
+                                  ),
+                                  textScaleFactor: 0.8,
                                 ),
-                                textScaleFactor: 0.8,
                               ),
                             ],
                           ),
@@ -300,4 +329,3 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
-

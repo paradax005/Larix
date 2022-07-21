@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:larix/screens/home/home.dart';
 import 'package:larix/screens/login/login_screen.dart';
 import 'package:larix/screens/signup/signup_screen.dart';
 
@@ -25,6 +26,9 @@ class MyApp extends StatelessWidget {
         },
         '/register': (BuildContext context) {
           return const SignupScreen();
+        },
+        '/home': (BuildContext context) {
+          return const Home();
         }
       },
     );
