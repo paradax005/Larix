@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class SignUpHeader extends StatelessWidget {
-  const SignUpHeader({
+class Header extends StatelessWidget {
+  const Header({
     Key? key,
   }) : super(key: key);
 
@@ -9,28 +9,31 @@ class SignUpHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(
-        vertical: 16,
-        horizontal: 24,
+        vertical: 36,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: const [
           Text(
-            'larix',
-            textScaleFactor: 2.5,
+            'Larix',
+            textScaleFactor: 4,
             style: TextStyle(
-              color: Colors.white,
-              fontFamily: 'Poppins',
+              color: Color(0xFF5138EE),
+              fontFamily: 'Syntha',
             ),
+          ),
+          SizedBox(
+            height: 5,
           ),
           Text(
             'THE COMPLETE SOLUTION FOR HUMAN RESOURCES MANAGEMENT',
             style: TextStyle(
-              color: Colors.white,
+              color: Color(0xFF5138EE),
               fontFamily: 'Poppins',
-              fontSize: 11,
+              fontSize: 8,
             ),
+            // textScaleFactor: 0.3,
           ),
         ],
       ),

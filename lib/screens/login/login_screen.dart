@@ -1,6 +1,8 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:larix/components/header_input_text.dart';
+import 'package:larix/screens/login/header.dart';
 import 'package:larix/utils/constant.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -12,12 +14,12 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   // Background input Color email
-  Color _colorEmail = const Color(0xFFBE9CF2);
+  Color _colorEmail = kInputColor;
   Color _hintColorEmail = kHintTextColor2;
   Color _inputColorEmail = kHintTextColor2;
 
-  // Background input Color email
-  Color _colorPassword = const Color(0xFFBE9CF2);
+  // Background input Color password
+  Color _colorPassword = kInputColor;
   Color _hintColorPassword = kHintTextColor2;
   Color _inputColorPassword = kHintTextColor2;
 
@@ -38,14 +40,15 @@ class _LoginScreenState extends State<LoginScreen> {
         });
       } else {
         setState(() {
-          _colorEmail = const Color(0xFFBE9CF2);
+          _colorEmail = kInputColor;
           _hintColorEmail = kHintTextColor2;
           _inputColorEmail = kHintTextColor2;
         });
       }
     });
-    // TODO: implement initState
+
     super.initState();
+
     _focusNodePassword.addListener(() {
       if (_focusNodePassword.hasFocus) {
         setState(() {
@@ -55,7 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
         });
       } else {
         setState(() {
-          _colorPassword = const Color(0xFFBE9CF2);
+          _colorPassword = kInputColor;
           _hintColorPassword = kHintTextColor2;
           _inputColorPassword = kHintTextColor2;
         });
@@ -75,91 +78,48 @@ class _LoginScreenState extends State<LoginScreen> {
             maxWidth: MediaQuery.of(context).size.width,
           ),
           decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.centerRight,
-              colors: [
-                Color.fromRGBO(93, 12, 224, 1.0),
-                Color.fromRGBO(122, 33, 224, 1.0),
-              ],
-            ),
+            image: DecorationImage(
+                image: AssetImage('assets/images/bg_larix.png'),
+                fit: BoxFit.fill),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Expanded(
+              const Expanded(
                 flex: 3,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 36,
-                    horizontal: 24,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text(
-                        'Larix',
-                        textScaleFactor: 3,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Poppins',
-                        ),
-                      ),
-                      Text(
-                        'THE COMPLETE SOLUTION FOR HUMAN RESOURCES MANAGEMENT',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Poppins',
-                          fontSize: 12,
-                        ),
-                        textScaleFactor: 0.9,
-                      ),
-                    ],
-                  ),
-                ),
+                child: Header(),
               ),
               Expanded(
-                flex: 7,
+                flex: 10,
                 child: Container(
                   width: double.infinity,
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomLeft,
-                      colors: [
-                        Color.fromRGBO(191, 156, 242, 1),
-                        Color.fromRGBO(182, 144, 240, 1),
-                        Color.fromRGBO(165, 121, 238, 1),
-                        Color.fromRGBO(153, 104, 236, 1),
-                        Color.fromRGBO(142, 90, 234, 1),
-                        Color.fromRGBO(130, 73, 232, 1),
-                        Color.fromRGBO(114, 49, 229, 1),
-                      ],
-                    ),
-                    borderRadius: BorderRadius.only(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: kCardDrawerColor, width: 1.5),
+                    color: kPrimaryColor.withOpacity(0.5),
+                    borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(60),
                       topRight: Radius.circular(60),
                     ),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.all(16),
+                    padding:
+                        const EdgeInsets.only(right: 16, left: 16, bottom: 8),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         const Text(
-                          "Welcome Back!",
+                          "Welcome Back !",
                           style: TextStyle(
                             color: Colors.white,
-                            // fontWeight: FontWeight.bold,
-                            fontFamily: "Poppins",
-                            fontSize: 26,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "Sf-Pro",
+                            fontSize: 28,
                           ),
                         ),
                         const SizedBox(
-                          height: 50,
+                          height: 80,
                         ),
                         Form(
                           key: _formKey,
@@ -169,73 +129,86 @@ class _LoginScreenState extends State<LoginScreen> {
                               const HeaderInputText(
                                 inputHeader: "Email or Username",
                               ),
-                              SizedBox(
-                                height: 45,
-                                child: TextFormField(
-                                  validator: (value) {
-                                    EmailValidator.validate(value!)
-                                        ? null
-                                        : "Please enter a valid email";
-                                  },
-                                  onChanged: (value) => print(value),
-                                  focusNode: _focusNodeEmail,
-                                  keyboardType: TextInputType.emailAddress,
-                                  style: TextStyle(
-                                    color: _inputColorEmail,
+                              TextFormField(
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return "Please enter a valid email";
+                                  }
+                                  EmailValidator.validate(value)
+                                      ? null
+                                      : "Please enter a valid email";
+                                  return null;
+                                },
+
+                                // ignore: avoid_print
+                                onChanged: (value) => print(value),
+                                focusNode: _focusNodeEmail,
+                                keyboardType: TextInputType.emailAddress,
+                                style: TextStyle(
+                                  color: _inputColorEmail,
+                                  fontSize: 13,
+                                ),
+
+                                decoration: InputDecoration(
+                                  filled: true,
+                                  fillColor: _colorEmail,
+                                  hintText: "Email",
+                                  hintStyle: TextStyle(
+                                    color: _hintColorEmail,
+                                    fontSize: 12,
                                   ),
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    fillColor: _colorEmail,
-                                    hintText: "ETCAdmin@etc.info",
-                                    hintStyle: TextStyle(
-                                      color: _hintColorEmail,
-                                      fontSize: 12,
-                                    ),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide: BorderSide.none,
-                                    ),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 12,
+                                    horizontal: 10,
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(7),
+                                    borderSide: BorderSide.none,
                                   ),
                                 ),
                               ),
                               const SizedBox(
-                                height: 20,
+                                height: 10,
                               ),
                               const HeaderInputText(
                                 inputHeader: "Password",
                               ),
-                              SizedBox(
-                                height: 45,
-                                child: TextFormField(
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return "please enter your password";
-                                    }
-                                    return null;
-                                  },
-                                  onChanged: (value) => print(value),
-                                  focusNode: _focusNodePassword,
-                                  obscureText: true,
-                                  style: TextStyle(
-                                    color: _inputColorPassword,
+                              TextFormField(
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "please enter your password";
+                                  }
+                                  return null;
+                                },
+                                // ignore: avoid_print
+                                onChanged: (value) => print(value),
+                                focusNode: _focusNodePassword,
+                                obscureText: true,
+                                obscuringCharacter: '*',
+                                style: TextStyle(
+                                  color: _inputColorPassword,
+                                  fontSize: 12,
+                                ),
+                                decoration: InputDecoration(
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 12,
+                                    horizontal: 10,
                                   ),
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    fillColor: _colorPassword,
-                                    hintText: "****************",
-                                    hintStyle: TextStyle(
-                                      color: _hintColorPassword,
-                                      fontSize: 13,
-                                    ),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(7),
-                                      borderSide: BorderSide.none,
-                                    ),
+                                  filled: true,
+                                  fillColor: _colorPassword,
+                                  hintText: "Password",
+                                  hintStyle: TextStyle(
+                                    color: _hintColorPassword,
+                                    fontSize: 12,
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(7),
+                                    borderSide: BorderSide.none,
                                   ),
                                 ),
                               ),
                               const SizedBox(
-                                height: 50,
+                                height: 40,
                               ),
                               SizedBox(
                                 width: double.infinity,
@@ -245,8 +218,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     if (_formKey.currentState!.validate()) {}
                                   },
                                   style: ElevatedButton.styleFrom(
-                                      primary:
-                                          const Color.fromRGBO(93, 62, 237, 1),
+                                      primary: const Color(0xFF5138EE),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(24),
                                       )),
@@ -269,30 +241,32 @@ class _LoginScreenState extends State<LoginScreen> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    const Text(
+                                    Text(
                                       'Forgot Password?',
                                       style: TextStyle(
-                                        color: Color.fromRGBO(220, 220, 248, 1),
+                                        color: kHintTextColor2.withOpacity(0.9),
                                       ),
                                     ),
                                     Row(
                                       children: [
-                                        const Text(
+                                        Text(
                                           'New to larix?',
                                           style: TextStyle(
-                                            color: Color.fromRGBO(
-                                                220, 220, 248, 1),
+                                            color: kHintTextColor2
+                                                .withOpacity(0.9),
                                           ),
                                         ),
                                         TextButton(
                                           onPressed: () {
-                                            Navigator.pushReplacementNamed(
-                                                context, '/register');
+                                            // Navigator.pushReplacementNamed(
+                                            //     context, '/register');
+                                            Get.toNamed('/register');
                                           },
                                           child: const Text(
                                             'Get Started',
                                             style: TextStyle(
                                               color: Colors.white,
+                                              fontWeight: FontWeight.bold,
                                             ),
                                           ),
                                         ),
@@ -302,14 +276,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               ),
                               const SizedBox(
-                                height: 40,
+                                height: 80,
                               ),
                               const Center(
                                 child: Text(
                                   "Ⓒ  2022 ETC All Right Required",
+                                  
                                   style: TextStyle(
-                                    // color: Color.fromRGBO(180, 142, 220, 1),
-                                    color: Color(0xFFD5C7DF),
+                                    color: Colors.white,
                                   ),
                                   textScaleFactor: 0.8,
                                 ),

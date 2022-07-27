@@ -19,7 +19,6 @@ class HeaderInputText extends StatelessWidget {
         style: const TextStyle(
           color: Colors.white,
           fontFamily: "Poppins",
-          // fontWeight: FontWeight.bold,
         ),
         textScaleFactor: 0.9,
       ),

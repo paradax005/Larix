@@ -1,7 +1,11 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:larix/components/divider_bar.dart';
+import 'package:get/get.dart';
+
+import 'package:larix/components/header_input_text.dart';
+import 'package:larix/screens/login/header.dart';
+import 'package:larix/utils/constant.dart';
+import 'package:larix/utils/size_config.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
@@ -11,11 +15,116 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
+  /* -------- Background & input Color username -------- */
+  Color _bgColorUsername = kInputColor;
+  Color _hintColorUsername = kHintTextColor2;
+  Color _inputColorUsername = kHintTextColor2;
+
+  /* -------- Background & input Color email -------- */
+  Color _bgColorEmail = kInputColor;
+  Color _hintColorEmail = kHintTextColor2;
+  Color _inputColorEmail = kHintTextColor2;
+
+  /* -------- Background & input Color password -------- */
+  Color _bgColorPassword = kInputColor;
+  Color _hintColorPassword = kHintTextColor2;
+  Color _inputColorPassword = kHintTextColor2;
+
+  /* -------- Background & input Color confirm_password -------- */
+  Color _bgColorConfirmPassword = kInputColor;
+  Color _hintColorConfirmPassword = kHintTextColor2;
+  Color _inputColorConfirmPassword = kHintTextColor2;
+
+  // Controle State Of The input if pressed or not !!
+  final FocusNode _focusNodeUsername = FocusNode();
+  final FocusNode _focusNodeEmail = FocusNode();
+  final FocusNode _focusNodePassword = FocusNode();
+  final FocusNode _focusNodeConfirmPassword = FocusNode();
+
+  /* ------------------------------------------------------- */
   final _formKey = GlobalKey<FormState>();
-  bool _hidePassword = true;
-  bool _hideRPassword = true;
+  /* ------------------------------------------------------- */
+
+  @override
+  void initState() {
+    super.initState();
+
+    /* -------- manage state of username input -------- */
+    _focusNodeUsername.addListener(() {
+      if (_focusNodeUsername.hasFocus) {
+        setState(() {
+          _bgColorUsername = Colors.white;
+          _hintColorUsername = kHintTextColor1;
+          _inputColorUsername = kHintTextColor1;
+        });
+      } else {
+        setState(() {
+          _bgColorUsername = kInputColor;
+          _hintColorUsername = kHintTextColor2;
+          _inputColorUsername = kHintTextColor2;
+        });
+      }
+    });
+
+    /* -------- manage state of email input -------- */
+    _focusNodeEmail.addListener(() {
+      if (_focusNodeEmail.hasFocus) {
+        setState(() {
+          _bgColorEmail = Colors.white;
+          _hintColorEmail = kHintTextColor1;
+          _inputColorEmail = kHintTextColor1;
+        });
+      } else {
+        setState(() {
+          _bgColorEmail = kInputColor;
+          _hintColorEmail = kHintTextColor2;
+          _inputColorEmail = kHintTextColor2;
+        });
+      }
+    });
+
+    /* -------- manage state of password input -------- */
+
+    _focusNodePassword.addListener(() {
+      if (_focusNodePassword.hasFocus) {
+        setState(() {
+          _bgColorPassword = Colors.white;
+          _hintColorPassword = kHintTextColor1;
+          _inputColorPassword = kHintTextColor1;
+        });
+      } else {
+        setState(() {
+          _bgColorPassword = kInputColor;
+          _hintColorPassword = kHintTextColor2;
+          _inputColorPassword = kHintTextColor2;
+        });
+      }
+    });
+
+    /* -------- manage state of password input  -------- */
+
+    _focusNodeConfirmPassword.addListener(() {
+      if (_focusNodeConfirmPassword.hasFocus) {
+        setState(() {
+          _bgColorConfirmPassword = Colors.white;
+          _hintColorConfirmPassword = kHintTextColor1;
+          _inputColorConfirmPassword = kHintTextColor1;
+        });
+      } else {
+        setState(() {
+          _bgColorConfirmPassword = kInputColor;
+          _hintColorConfirmPassword = kHintTextColor2;
+          _inputColorConfirmPassword = kHintTextColor2;
+        });
+      }
+    });
+  }
+
+  /* --------------------------------------------------- */
+
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -27,262 +136,219 @@ class _SignupScreenState extends State<SignupScreen> {
           ),
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: AssetImage(
-                'assets/images/bg-register.png',
-              ),
-              fit: BoxFit.cover,
-            ),
+                image: AssetImage('assets/images/bg_larix.png'),
+                fit: BoxFit.fill),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Expanded(
-                flex: 2,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 16,
-                    horizontal: 24,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text(
-                        'larix',
-                        textScaleFactor: 2.5,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Poppins',
-                        ),
-                      ),
-                      Text(
-                        'THE COMPLETE SOLUTION FOR HUMAN RESOURCES MANAGEMENT',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Poppins',
-                          fontSize: 11,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+              const Expanded(
+                flex: 3,
+                child: Header(),
               ),
               Expanded(
-                flex: 8,
+                flex: 10,
                 child: Container(
                   width: double.infinity,
-                  decoration: const BoxDecoration(
-                    color: Color.fromRGBO(255, 255, 255, 0.4),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(48),
-                      topRight: Radius.circular(48),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: kCardDrawerColor, width: 1.5),
+                    color: kPrimaryColor.withOpacity(0.5),
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(60),
+                      topRight: Radius.circular(60),
                     ),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.only(
+                        left: 24, right: 24, bottom: 8, top: 8),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         const Text(
-                          "Get Started",
+                          "Welcome to Larix!",
                           style: TextStyle(
                             color: Colors.white,
-                            // fontWeight: FontWeight.bold,
-                            fontFamily: "Poppins",
-                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 26,
                           ),
-                          textScaleFactor: 2,
+                          // textScaleFactor: 2,
                         ),
                         const SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
                         Form(
                           key: _formKey,
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SizedBox(
-                                height: 52,
-                                child: TextFormField(
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return "Please enter a valid username !";
-                                    }
-                                  },
-                                  keyboardType: TextInputType.emailAddress,
-                                  textInputAction: TextInputAction.done,
-                                  maxLines: 1,
-                                  decoration: InputDecoration(
-                                    labelStyle: const TextStyle(
-                                      color: Colors.black87,
-                                    ),
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    label: const Text("Username"),
-                                    prefixIcon: const Icon(Icons.person),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    focusColor: Colors.white,
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                      borderSide: const BorderSide(
-                                        color: Colors.white,
-                                      ),
-                                    ),
+                              const HeaderInputText(
+                                inputHeader: "Name*",
+                              ),
+                              TextFormField(
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    "Please enter a valid username";
+                                  }
+                                  return null;
+                                },
+                                // ignore: avoid_print
+                                onChanged: (value) => print(value),
+                                focusNode: _focusNodeUsername,
+                                keyboardType: TextInputType.name,
+                                style: TextStyle(
+                                  color: _inputColorUsername,
+                                ),
+                                decoration: InputDecoration(
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 12,
+                                    horizontal: 10,
+                                  ),
+                                  filled: true,
+                                  fillColor: _bgColorUsername,
+                                  hintText: "username",
+                                  hintStyle: TextStyle(
+                                    color: _hintColorUsername,
+                                    fontSize: 12,
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(7),
+                                    borderSide: BorderSide.none,
                                   ),
                                 ),
                               ),
                               const SizedBox(
-                                height: 20,
+                                height: 15,
                               ),
-                              SizedBox(
-                                height: 52,
-                                child: TextFormField(
-                                  validator: (value) =>
-                                      EmailValidator.validate(value!)
-                                          ? null
-                                          : "Please enter a valid email",
-                                  keyboardType: TextInputType.emailAddress,
-                                  textInputAction: TextInputAction.done,
-                                  maxLines: 1,
-                                  decoration: InputDecoration(
-                                    labelStyle: const TextStyle(
-                                      color: Colors.black87,
-                                    ),
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    label: const Text("Email"),
-                                    prefixIcon:
-                                        const Icon(Icons.email_outlined),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    focusColor: Colors.white,
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                      borderSide: const BorderSide(
-                                        color: Colors.white,
-                                      ),
-                                    ),
+                              const HeaderInputText(
+                                inputHeader: "Email*",
+                              ),
+                              TextFormField(
+                                validator: (value) {
+                                  EmailValidator.validate(value!)
+                                      ? null
+                                      : "Please enter a valid email";
+                                  return null;
+                                },
+                                // ignore: avoid_print
+                                onChanged: (value) => print(value),
+                                focusNode: _focusNodeEmail,
+                                keyboardType: TextInputType.emailAddress,
+                                style: TextStyle(
+                                  color: _inputColorEmail,
+                                ),
+                                decoration: InputDecoration(
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 12,
+                                    horizontal: 10,
+                                  ),
+                                  filled: true,
+                                  fillColor: _bgColorEmail,
+                                  hintText: "Email Address",
+                                  hintStyle: TextStyle(
+                                    color: _hintColorEmail,
+                                    fontSize: 12,
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(7),
+                                    borderSide: BorderSide.none,
                                   ),
                                 ),
                               ),
                               const SizedBox(
-                                height: 20,
+                                height: 15,
                               ),
-                              SizedBox(
-                                height: 52,
-                                child: TextFormField(
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return "please enter your password";
-                                    }
-                                    return null;
-                                  },
-                                  obscureText: _hidePassword,
-                                  textInputAction: TextInputAction.done,
-                                  maxLines: 1,
-                                  decoration: InputDecoration(
-                                    labelStyle: const TextStyle(
-                                      color: Colors.black54,
-                                    ),
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    label: const Text("Password"),
-                                    prefixIcon: const Icon(Icons.lock),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    suffixIcon: IconButton(
-                                      icon: Icon(
-                                        _hidePassword
-                                            ? Icons.visibility_off
-                                            : Icons.visibility,
-                                      ),
-                                      onPressed: () {
-                                        setState(() {
-                                          _hidePassword = !_hidePassword;
-                                        });
-                                      },
-                                    ),
-                                    focusColor: Colors.white,
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                      borderSide: const BorderSide(
-                                        color: Colors.white,
-                                      ),
-                                    ),
+                              const HeaderInputText(
+                                inputHeader: "Password",
+                              ),
+                              TextFormField(
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "please enter a valid password";
+                                  }
+                                  return null;
+                                },
+                                // ignore: avoid_print
+                                onChanged: (value) => print(value),
+                                focusNode: _focusNodePassword,
+                                obscureText: true,
+                                obscuringCharacter: '*',
+                                style: TextStyle(
+                                  color: _inputColorPassword,
+                                ),
+                                decoration: InputDecoration(
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 0,
+                                    horizontal: 10,
+                                  ),
+                                  filled: true,
+                                  fillColor: _bgColorPassword,
+                                  hintText: "Password",
+                                  hintStyle: TextStyle(
+                                    color: _hintColorPassword,
+                                    fontSize: 12,
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(7),
+                                    borderSide: BorderSide.none,
                                   ),
                                 ),
                               ),
                               const SizedBox(
-                                height: 20,
+                                height: 15,
                               ),
-                              SizedBox(
-                                height: 52,
-                                child: TextFormField(
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return "please enter your password";
-                                    }
-                                    return null;
-                                  },
-                                  obscureText: _hideRPassword,
-                                  textInputAction: TextInputAction.done,
-                                  maxLines: 1,
-                                  decoration: InputDecoration(
-                                    labelStyle: const TextStyle(
-                                      color: Colors.black54,
-                                    ),
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    label: const Text("Confirm Password"),
-                                    // hintText: "confirm password",
-                                    prefixIcon: const Icon(Icons.lock_open),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    suffixIcon: IconButton(
-                                      icon: Icon(
-                                        _hideRPassword
-                                            ? Icons.visibility_off
-                                            : Icons.visibility,
-                                      ),
-                                      onPressed: () {
-                                        setState(() {
-                                          _hideRPassword = !_hideRPassword;
-                                        });
-                                      },
-                                    ),
-                                    focusColor: Colors.white,
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                      borderSide: const BorderSide(
-                                        color: Colors.white,
-                                      ),
-                                    ),
+                              const HeaderInputText(
+                                  inputHeader: "Confirm Password"),
+                              TextFormField(
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "please enter a valid password";
+                                  }
+                                  return null;
+                                },
+                                // ignore: avoid_print
+                                onChanged: (value) => print(value),
+                                focusNode: _focusNodeConfirmPassword,
+                                obscureText: true,
+                                expands: false,
+                                obscuringCharacter: '*',
+                                style: TextStyle(
+                                  color: _inputColorConfirmPassword,
+                                ),
+                                decoration: InputDecoration(
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 0,
+                                    horizontal: 10,
+                                  ),
+                                  filled: true,
+                                  fillColor: _bgColorConfirmPassword,
+                                  hintText: "Password",
+                                  hintStyle: TextStyle(
+                                    color: _hintColorConfirmPassword,
+                                    fontSize: 12,
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(7),
+                                    borderSide: BorderSide.none,
                                   ),
                                 ),
                               ),
                               const SizedBox(
-                                height: 30,
+                                height: 40,
                               ),
                               SizedBox(
                                 width: double.infinity,
                                 height: 40,
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    // if (_formKey.currentState!.validate()) {}
-                                    // Navigator.pushReplacementNamed(
-                                    //     context, '/home');
+                                    if (_formKey.currentState!.validate()) {}
                                   },
                                   style: ElevatedButton.styleFrom(
                                       primary:
                                           const Color.fromRGBO(93, 62, 237, 1),
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(24),
+                                        borderRadius: BorderRadius.circular(12),
                                       )),
                                   child: const Text(
                                     "Sign Up",
@@ -294,399 +360,62 @@ class _SignupScreenState extends State<SignupScreen> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(
-                                height: 10,
-                              ),
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.only(left: 8, top: 8),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Row(
-                                      children: [
-                                        const Text(
-                                          'Already Have an account?',
-                                          style: TextStyle(
-                                            color: Color.fromRGBO(
-                                                220, 200, 248, 1),
-                                          ),
+                                    Text(
+                                      "Already Have an account?",
+                                      style: TextStyle(
+                                        color: kHintTextColor2.withOpacity(0.9),
+                                        fontFamily: "Poppins",
+                                      ),
+                                      textScaleFactor: 0.9,
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        // Navigator.pushReplacementNamed(
+                                        //     context, '/login');
+
+                                        Get.toNamed('/login');
+                                      },
+                                      child: const Text(
+                                        'Sign In',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
                                         ),
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.pushReplacementNamed(
-                                                context, '/login');
-                                          },
-                                          child: const Text(
-                                            'Sign In',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    )
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
-                              // const SizedBox(
-                              //   height: 10,
-                              // ),
-                              const DividerBar(),
                               const SizedBox(
-                                height: 10,
+                                height: 50,
                               ),
-                              OutlinedButton.icon(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                  primary: Colors.transparent,
-                                  minimumSize: const Size(double.infinity, 40),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  side: const BorderSide(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                icon: const FaIcon(
-                                  FontAwesomeIcons.google,
-                                  color: Colors.red,
-                                ),
-                                label: const Text(
-                                  'Sign Up with Google',
+                              Center(
+                                child: Text(
+                                  "Ⓒ  2022 ETC All Right Required",
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: Colors.grey.shade100,
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w500,
                                   ),
+                                  textScaleFactor: 0.8,
                                 ),
-                              ),
-                              const SizedBox(
-                                height: 8,
-                              ),
-                              const Text(
-                                "Ⓒ 2022 ETC All Right Required",
-                                style: TextStyle(
-                                  color: Colors.black87,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                textScaleFactor: 0.8,
                               ),
                             ],
                           ),
-                        ),
+                        )
                       ],
                     ),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class SignUpForm extends StatefulWidget {
-  const SignUpForm({Key? key}) : super(key: key);
-
-  @override
-  State<SignUpForm> createState() => _SignUpFormState();
-}
-
-class _SignUpFormState extends State<SignUpForm> {
-  final _formKey = GlobalKey<FormState>();
-  bool _hidePassword = true;
-  bool _hideRPassword = true;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const Text(
-            "Get Started",
-            style: TextStyle(
-              color: Colors.white,
-              // fontWeight: FontWeight.bold,
-              fontFamily: "Poppins",
-              fontSize: 18,
-            ),
-            textScaleFactor: 2,
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 52,
-                  child: TextFormField(
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return "Please enter a valid username !";
-                      }
-                    },
-                    keyboardType: TextInputType.emailAddress,
-                    textInputAction: TextInputAction.done,
-                    maxLines: 1,
-                    decoration: InputDecoration(
-                      labelStyle: const TextStyle(
-                        color: Colors.black87,
-                      ),
-                      filled: true,
-                      fillColor: Colors.white,
-                      label: const Text("Username"),
-                      prefixIcon: const Icon(Icons.person),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      focusColor: Colors.white,
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: const BorderSide(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  height: 52,
-                  child: TextFormField(
-                    validator: (value) => EmailValidator.validate(value!)
-                        ? null
-                        : "Please enter a valid email",
-                    keyboardType: TextInputType.emailAddress,
-                    textInputAction: TextInputAction.done,
-                    maxLines: 1,
-                    decoration: InputDecoration(
-                      labelStyle: const TextStyle(
-                        color: Colors.black87,
-                      ),
-                      filled: true,
-                      fillColor: Colors.white,
-                      label: const Text("Email"),
-                      prefixIcon: const Icon(Icons.email_outlined),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      focusColor: Colors.white,
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: const BorderSide(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  height: 52,
-                  child: TextFormField(
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "please enter your password";
-                      }
-                      return null;
-                    },
-                    obscureText: _hidePassword,
-                    textInputAction: TextInputAction.done,
-                    maxLines: 1,
-                    decoration: InputDecoration(
-                      labelStyle: const TextStyle(
-                        color: Colors.black54,
-                      ),
-                      filled: true,
-                      fillColor: Colors.white,
-                      label: const Text("Password"),
-                      prefixIcon: const Icon(Icons.lock),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _hidePassword
-                              ? Icons.visibility_off
-                              : Icons.visibility,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            _hidePassword = !_hidePassword;
-                          });
-                        },
-                      ),
-                      focusColor: Colors.white,
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: const BorderSide(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  height: 52,
-                  child: TextFormField(
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "please enter your password";
-                      }
-                      return null;
-                    },
-                    obscureText: _hideRPassword,
-                    textInputAction: TextInputAction.done,
-                    maxLines: 1,
-                    decoration: InputDecoration(
-                      labelStyle: const TextStyle(
-                        color: Colors.black54,
-                      ),
-                      filled: true,
-                      fillColor: Colors.white,
-                      label: const Text("Confirm Password"),
-                      // hintText: "confirm password",
-                      prefixIcon: const Icon(Icons.lock_open),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _hideRPassword
-                              ? Icons.visibility_off
-                              : Icons.visibility,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            _hideRPassword = !_hideRPassword;
-                          });
-                        },
-                      ),
-                      focusColor: Colors.white,
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: const BorderSide(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                SizedBox(
-                  width: double.infinity,
-                  height: 40,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // if (_formKey.currentState!.validate()) {}
-                      // Navigator.pushReplacementNamed(
-                      //     context, '/home');
-                    },
-                    style: ElevatedButton.styleFrom(
-                        primary: const Color.fromRGBO(93, 62, 237, 1),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24),
-                        )),
-                    child: const Text(
-                      "Sign Up",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Row(
-                        children: [
-                          const Text(
-                            'Already Have an account?',
-                            style: TextStyle(
-                              color: Color.fromRGBO(220, 200, 248, 1),
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pushReplacementNamed(context, '/login');
-                            },
-                            child: const Text(
-                              'Sign In',
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-                // const SizedBox(
-                //   height: 10,
-                // ),
-                const DividerBar(),
-                const SizedBox(
-                  height: 10,
-                ),
-                OutlinedButton.icon(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.transparent,
-                    minimumSize: const Size(double.infinity, 40),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    side: const BorderSide(
-                      color: Colors.white,
-                    ),
-                  ),
-                  icon: const FaIcon(
-                    FontAwesomeIcons.google,
-                    color: Colors.red,
-                  ),
-                  label: const Text(
-                    'Sign Up with Google',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                const Text(
-                  "Ⓒ 2022 ETC All Right Required",
-                  style: TextStyle(
-                    color: Colors.black87,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textScaleFactor: 0.8,
-                ),
-              ],
-            ),
-          ),
-        ],
       ),
     );
   }
