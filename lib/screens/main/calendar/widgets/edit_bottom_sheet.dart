@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:larix/utils/date_format.dart';
 
-import '../../../../models/categorie_task.dart';
+import '../../../../models/task.dart';
 import '../../../../utils/constant.dart';
 
 class EditBottomSheet extends StatefulWidget {

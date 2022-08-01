@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'categorie_task.dart';
+
+enum CategorieTask { uxUi, webDev, testing }
+
 
 enum TaskStatus {
   done,

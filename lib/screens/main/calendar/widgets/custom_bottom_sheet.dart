@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:larix/utils/constant.dart';
 
-import '../../../../models/categorie_task.dart';
+import '../../../../models/task.dart';
 import '../../../../utils/date_format.dart';
 
 class CustomButtomSheet extends StatefulWidget {
