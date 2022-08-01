@@ -32,8 +32,8 @@ class _CustomButtonWithCounterState extends State<CustomButtonWithCounter> {
       width: MediaQuery.of(context).size.width,
       height: 55,
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.5),
-        borderRadius: BorderRadius.circular(16),
+        color: Colors.white.withOpacity(0.8),
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -53,9 +53,9 @@ class _CustomButtonWithCounterState extends State<CustomButtonWithCounter> {
                 style: TextStyle(
                   color: widget.nbNotification == 0
                       ? Colors.grey.shade600
-                      : kPrimaryColor.withOpacity(0.7),
+                      : kPrimaryColor,
+                  fontSize: 12,
                   fontWeight: FontWeight.w600,
-                  fontSize: 15,
                 ),
               ),
             ],

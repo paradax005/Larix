@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:larix/screens/main/dashboard/widgets/profile_pic_with_active_status.dart';
 
-import '../../../../utils/constant.dart';
-
 class HeaderDashboard extends StatelessWidget {
   const HeaderDashboard({
     Key? key,
@@ -10,12 +8,18 @@ class HeaderDashboard extends StatelessWidget {
     required this.userConnected,
     required this.userName,
     required this.userRole,
+    required this.drawerColor,
+    required this.userNameColor,
+    required this.roleColor,
   }) : super(key: key);
 
   final String image;
   final bool userConnected;
   final String userName;
   final String userRole;
+  final Color drawerColor;
+  final Color userNameColor;
+  final Color roleColor;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +32,7 @@ class HeaderDashboard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Icon(Icons.menu),
+            Icon(Icons.menu,color: drawerColor,),
             Row(
               children: [
                 ProfilePic(
@@ -44,16 +48,16 @@ class HeaderDashboard extends StatelessWidget {
                   children: [
                     Text(
                       userName,
-                      style: const TextStyle(
-                        color: kPrimaryColor,
+                      style: TextStyle(
+                        color: userNameColor,
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
                       userRole,
-                      style: const TextStyle(
-                        color: Color.fromARGB(255, 123, 120, 120),
+                      style: TextStyle(
+                        color: roleColor,
                         fontSize: 12,
                       ),
                     )

@@ -4,7 +4,6 @@ import 'package:get/get_navigation/get_navigation.dart';
 import 'package:larix/screens/login/login_screen.dart';
 import 'package:larix/screens/main/main_screen.dart';
 import 'package:larix/screens/signup/signup_screen.dart';
-import 'package:larix/utils/constant.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,7 +21,7 @@ class MyApp extends StatelessWidget {
       title: 'Larix',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.amber,
+        primarySwatch: Colors.blueGrey,
         fontFamily: 'Poppins',
       ),
       home: const MainScreen(),
@@ -31,12 +30,18 @@ class MyApp extends StatelessWidget {
           name: '/login',
           page: () => const LoginScreen(),
           transition: Transition.rightToLeft,
-          transitionDuration: const Duration(seconds: 1),
+          transitionDuration: const Duration(milliseconds: 600),
         ),
         GetPage(
           name: '/register',
           page: () => const SignupScreen(),
           transition: Transition.leftToRight,
+          transitionDuration: const Duration(milliseconds: 600),
+        ),
+        GetPage(
+          name: '/home',
+          page: () => const MainScreen(),
+          transition: Transition.fade,
           transitionDuration: const Duration(seconds: 1),
         ) // Dynamic route
       ],

@@ -58,6 +58,7 @@ class CustomLineChart extends StatelessWidget {
     );
   }
 
+  // ignore: non_constant_identifier_names
   Widget LeftTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
       color: Color(0xff68737d),

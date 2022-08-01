@@ -1,12 +1,10 @@
-import 'dart:math';
-
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 
 import 'dummydata/bar_chart_data.dart';
 
 class CustomBarChart extends StatelessWidget {
-  CustomBarChart({Key? key, this.tabContent = 0}) : super(key: key);
+  const CustomBarChart({Key? key, this.tabContent = 0}) : super(key: key);
 
   // 0 or 1
   final int tabContent;
@@ -58,8 +56,8 @@ class CustomBarChart extends StatelessWidget {
         data: tabContent == 0 ? dataStaff : dataPerf,
         domainFn: (BarChartModel series, _) => series.month,
         measureFn: (BarChartModel series, _) => series.percent,
-        colorFn: (BarChartModel series, _) =>
-            charts.ColorUtil.fromDartColor(Color.fromARGB(183, 101, 75, 227)),
+        colorFn: (BarChartModel series, _) => charts.ColorUtil.fromDartColor(
+            const Color.fromARGB(183, 101, 75, 227)),
       ),
     ];
 
@@ -68,14 +66,12 @@ class CustomBarChart extends StatelessWidget {
       child: charts.BarChart(
         series,
         animate: true,
-        animationDuration: const Duration(seconds: 2),
+        animationDuration: const Duration(milliseconds: 1500),
         defaultRenderer: charts.BarRendererConfig(
           strokeWidthPx: 1,
           maxBarWidthPx: 6,
         ),
-       barRendererDecorator: charts.BarLabelDecorator<String>(),
-
-       
+        barRendererDecorator: charts.BarLabelDecorator<String>(),
       ),
     );
   }

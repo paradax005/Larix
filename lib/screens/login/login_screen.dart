@@ -215,7 +215,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 height: 40,
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    if (_formKey.currentState!.validate()) {}
+                                    Get.toNamed('/home');
                                   },
                                   style: ElevatedButton.styleFrom(
                                       primary: const Color(0xFF5138EE),
@@ -281,7 +281,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               const Center(
                                 child: Text(
                                   "Ⓒ  2022 ETC All Right Required",
-                                  
                                   style: TextStyle(
                                     color: Colors.white,
                                   ),

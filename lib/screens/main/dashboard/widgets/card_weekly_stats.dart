@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:larix/screens/main/dashboard/widgets/dashboard_title_widget.dart';
 
-import '../../../../utils/constant.dart';
-
 class CardWeeklyStats extends StatelessWidget {
   const CardWeeklyStats({
     Key? key,
@@ -23,10 +21,11 @@ class CardWeeklyStats extends StatelessWidget {
           width: 1,
           color: Colors.white,
         ),
-        color: kCardColor,
+        color: Colors.white.withOpacity(0.4),
         borderRadius: BorderRadius.circular(12),
       ),
-      height: 20,
+      height: (MediaQuery.of(context).size.width / 2 - 24) * 0.7,
+      width: MediaQuery.of(context).size.width / 2 - 24,
       child: Padding(
         padding: const EdgeInsets.only(
           top: 8,
@@ -47,8 +46,8 @@ class CardWeeklyStats extends StatelessWidget {
                 height: 5,
               ),
               Container(
-                height: 1,
-                color: Colors.black,
+                height: 0.8,
+                color: const Color.fromARGB(255, 79, 79, 79),
               ),
               const SizedBox(
                 height: 15,
@@ -61,7 +60,7 @@ class CardWeeklyStats extends StatelessWidget {
                     textScaleFactor: 2,
                     style: const TextStyle(
                       color: Colors.black,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                   Row(
