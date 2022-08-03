@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get_navigation/get_navigation.dart';
 import 'package:larix/screens/login/login_screen.dart';
 import 'package:larix/screens/main/main_screen.dart';
 import 'package:larix/screens/signup/signup_screen.dart';
+import 'package:get/get.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,27 +24,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blueGrey,
         fontFamily: 'Poppins',
       ),
-      home: const MainScreen(),
-      getPages: [
-        GetPage(
-          name: '/login',
-          page: () => const LoginScreen(),
-          transition: Transition.rightToLeft,
-          transitionDuration: const Duration(milliseconds: 600),
-        ),
-        GetPage(
-          name: '/register',
-          page: () => const SignupScreen(),
-          transition: Transition.leftToRight,
-          transitionDuration: const Duration(milliseconds: 600),
-        ),
-        GetPage(
-          name: '/home',
-          page: () => const MainScreen(),
-          transition: Transition.fade,
-          transitionDuration: const Duration(seconds: 1),
-        ) // Dynamic route
-      ],
+      home: const LoginScreen(),
       // routes: {
       //   '/login': (BuildContext context) {
       //     return const LoginScreen();
@@ -53,9 +33,29 @@ class MyApp extends StatelessWidget {
       //     return const SignupScreen();
       //   },
       //   '/home': (BuildContext context) {
-      //     return const Home();
+      //     return const MainScreen();
       //   }
       // },
+      getPages: [
+        GetPage(
+          name: '/login',
+          page: () => const LoginScreen(),
+          transition: Transition.rightToLeft,
+          transitionDuration: const Duration(milliseconds: 400),
+        ),
+        GetPage(
+          name: '/register',
+          page: () => const SignupScreen(),
+          transition: Transition.leftToRight,
+          transitionDuration: const Duration(milliseconds: 400),
+        ),
+        GetPage(
+          name: '/home',
+          page: () => const MainScreen(),
+          transition: Transition.fade,
+          transitionDuration: const Duration(seconds: 1),
+        ) // Dynamic route
+      ],
     );
   }
 }

@@ -46,6 +46,15 @@ class _SignupScreenState extends State<SignupScreen> {
   /* ------------------------------------------------------- */
 
   @override
+  void dispose() {
+    super.dispose();
+    _focusNodeUsername.dispose();
+    _focusNodeEmail.dispose();
+    _focusNodePassword.dispose();
+    _focusNodeConfirmPassword.dispose();
+  }
+
+  @override
   void initState() {
     super.initState();
 
@@ -148,8 +157,9 @@ class _SignupScreenState extends State<SignupScreen> {
                 child: Header(),
               ),
               Expanded(
-                flex: 10,
+                flex: 12,
                 child: Container(
+                  padding: const EdgeInsets.only(top: 20),
                   width: double.infinity,
                   decoration: BoxDecoration(
                     border: Border.all(color: kCardDrawerColor, width: 1.5),
@@ -163,7 +173,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     padding: const EdgeInsets.only(
                         left: 24, right: 24, bottom: 8, top: 8),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         const Text(
@@ -378,7 +388,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                         // Navigator.pushReplacementNamed(
                                         //     context, '/login');
 
-                                        Get.toNamed('/login');
+                                        Get.offAndToNamed('/login');
                                       },
                                       child: const Text(
                                         'Sign In',
@@ -392,7 +402,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                 ),
                               ),
                               const SizedBox(
-                                height: 50,
+                                height: 30,
                               ),
                               Center(
                                 child: Text(

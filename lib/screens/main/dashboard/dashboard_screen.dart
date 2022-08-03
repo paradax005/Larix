@@ -34,7 +34,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           image: DecorationImage(
             image: AssetImage('assets/images/bg_larix.png'),
             fit: BoxFit.fill,
-            opacity: 0.6,
+            opacity: 0.8,
           ),
         ),
         child: Padding(
@@ -76,12 +76,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         maxWidth: MediaQuery.of(context).size.width,
                       ),
                       decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 179, 181, 255)
-                            .withOpacity(0.2),
-                        // border: Border.all(
-                        //   width: 1,
-                        //   color: Colors.white,
-                        // ),
+                        color: const Color.fromARGB(255, 183, 187, 232)
+                            .withOpacity(0.4),
+                        border: Border.all(
+                          width: 0.5,
+                          color: Colors.white,
+                        ),
                         borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(60),
                           topRight: Radius.circular(60),

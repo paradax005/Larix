@@ -30,6 +30,13 @@ class _LoginScreenState extends State<LoginScreen> {
   // bool _hidePassword = true;
 
   @override
+  void dispose() {
+    _focusNodeEmail.dispose();
+    _focusNodePassword.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     _focusNodeEmail.addListener(() {
       if (_focusNodeEmail.hasFocus) {
@@ -83,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 fit: BoxFit.fill),
           ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Expanded(
@@ -260,7 +267,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                           onPressed: () {
                                             // Navigator.pushReplacementNamed(
                                             //     context, '/register');
-                                            Get.toNamed('/register');
+                                            Get.offAndToNamed('/register');
                                           },
                                           child: const Text(
                                             'Get Started',

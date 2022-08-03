@@ -25,20 +25,21 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       body: _interfaces[_mIndex],
-      bottomNavigationBar: Container(
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(16),
-            topRight: Radius.circular(16),
-          ),
+      bottomNavigationBar: ClipRRect(
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(25),
+          topRight: Radius.circular(25),
         ),
         child: BottomNavigationBar(
-          backgroundColor: Colors.amber,
           selectedFontSize: 12,
           selectedItemColor: kPrimaryColor,
           unselectedItemColor: kSecondaryColor,
           showSelectedLabels: true,
+          selectedIconTheme: const IconThemeData(
+            color: kPrimaryColor,
+          ),
           selectedLabelStyle: const TextStyle(
             color: kPrimaryColor,
             fontWeight: FontWeight.w600,
@@ -53,36 +54,51 @@ class _MainScreenState extends State<MainScreen> {
           },
           items: [
             //1
-            BottomNavigationBarItem(
-                icon: _mIndex != 0
-                    ? const Icon(IconlyBold.home)
-                    : SvgPicture.asset(
-                        'assets/icons/dashboard.svg',
-                        width: 25,
-                      ),
+            const BottomNavigationBarItem(
+                icon: Icon(IconlyBold.home),
+                // icon: _mIndex != 0
+                //     ? const Icon(IconlyBold.home)
+                //     : SvgPicture.asset(
+                //         'assets/icons/dashboard.svg',
+                //         width: 25,
+                //       ),
                 label: 'Dashboard'),
             //2
             BottomNavigationBarItem(
+                // icon: Icon(IconlyBold.calendar),
+
+                // icon: _mIndex != 1
+                //     ? SvgPicture.asset(
+                //         'assets/icons/calendar_fill.svg',
+                //         width: 25,
+                //       )
+                //     : SvgPicture.asset(
+                //         'assets/icons/calendar.svg',
+                //         width: 25,
+                //       ),
+
                 icon: _mIndex != 1
-                    ? SvgPicture.asset(
-                        'assets/icons/calendar_fill.svg',
-                        width: 25,
+                    ? Image.asset(
+                        'assets/images/calendar_disable.png',
+                        width: 36,
                       )
-                    : SvgPicture.asset(
-                        'assets/icons/calendar.svg',
-                        width: 25,
+                    : Image.asset(
+                        'assets/images/calendar_active.png',
+                        width: 36,
                       ),
                 label: 'Calendar'),
             //3
             const BottomNavigationBarItem(
-                icon: Icon(IconlyBold.chart), label: 'HrIndocator'),
+                icon: Icon(IconlyBold.chart), label: 'HrIndicator'),
             //4
-            BottomNavigationBarItem(
-                icon: Icon(
-                  IconlyBold.profile,
-                  color: _mIndex != 3 ? Colors.grey.shade600 : kPrimaryColor,
-                ),
-                label: 'Profile'),
+            const BottomNavigationBarItem(
+              // icon: Icon(
+              //   IconlyBold.profile,
+              //   color: _mIndex != 3 ? Colors.grey.shade600 : kPrimaryColor,
+              // ),
+              icon: Icon(IconlyBold.profile),
+              label: 'Profile',
+            ),
           ],
         ),
       ),

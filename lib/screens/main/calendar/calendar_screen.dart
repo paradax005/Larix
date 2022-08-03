@@ -17,6 +17,7 @@ class CalendarScreen extends StatefulWidget {
 class _CalendarScreenState extends State<CalendarScreen>
     with TickerProviderStateMixin {
   late ScrollController scrollController;
+  late AnimationController _animationController;
 
   List<DateTime> currentMonthList = List.empty();
   DateTime currentDateTime = DateTime.now();
@@ -53,310 +54,152 @@ class _CalendarScreenState extends State<CalendarScreen>
     currentMonthList = currentMonthList.toSet().toList();
     scrollController =
         ScrollController(initialScrollOffset: 70.0 * currentDateTime.day);
+
+    _animationController = AnimationController(
+      vsync: this,
+      animationBehavior: AnimationBehavior.preserve,
+      duration: const Duration(milliseconds: 400),
+    );
+    // _animationController = BottomSheet.createAnimationController(this);
+    // _animationController.duration = const Duration(milliseconds: 800);
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    scrollController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 221, 231, 237),
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        constraints: BoxConstraints.expand(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-        ),
-        child: Padding(
-          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-          child: Column(
-            children: [
-              Expanded(
-                flex: 5,
-                child: Container(
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        Color.fromARGB(255, 73, 122, 237),
-                        Color.fromARGB(255, 87, 78, 234),
-                        Color.fromARGB(255, 87, 131, 234),
-                      ],
-                    ),
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(16),
-                      bottomRight: Radius.circular(16),
-                    ),
-                  ),
-                  child: Column(
-                    children: [
-                      const HeaderDashboard(
-                        image: 'assets/images/profile_pic.png',
-                        userConnected: true,
-                        userName: 'ETCAdmin',
-                        userRole: 'HR Manager',
-                        drawerColor: Colors.white,
-                        roleColor: Colors.white,
-                        userNameColor: Colors.white,
-                      ),
-                      _datePicker(),
-                      horizontalCapsuleListView(),
-                    ],
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 10,
-                child: Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text(
-                              'Daily Task',
-                              style: TextStyle(
-                                  fontSize: 22,
-                                  color: Color(0xFF000A39),
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            SizedBox(
-                              width: 45,
-                              height: 45,
-                              child: FloatingActionButton(
-                                backgroundColor: kPrimaryColor,
-                                onPressed: () {
-                                  showModalBottomSheet(
-                                    transitionAnimationController:
-                                        AnimationController(
-                                      vsync: this,
-                                      animationBehavior:
-                                          AnimationBehavior.preserve,
-                                      duration:
-                                          const Duration(milliseconds: 600),
-                                    ),
-                                    isScrollControlled: true,
-                                    shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.vertical(
-                                        top: Radius.circular(24),
-                                      ),
-                                    ),
-                                    context: context,
-                                    builder: ((context) => CustomButtomSheet(
-                                          currentDateTime: currentDateTime,
-                                        )),
-                                  );
-                                },
-                                child: const Icon(
-                                  Icons.add,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            )
+      backgroundColor: const Color(0xFFE3EBFC),
+      body: Builder(
+        builder: ((context) {
+          return Container(
+            width: double.infinity,
+            height: double.infinity,
+            constraints: BoxConstraints.expand(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+            ),
+            child: Padding(
+              padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+              child: Column(
+                children: [
+                  Expanded(
+                    flex: 5,
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Color.fromARGB(255, 73, 122, 237),
+                            Color.fromARGB(255, 87, 78, 234),
+                            Color.fromARGB(255, 87, 131, 234),
                           ],
                         ),
-                        _timeLineTile(),
-                      ],
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  _timeLineTile() {
-    return Container(
-      margin: const EdgeInsets.only(top: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          timelineRow(
-            "09:00",
-            "Order Confirmed",
-            'orderDateTime',
-            TaskStatus.done,
-          ),
-          timelineRow(
-            "10:00",
-            "Order Inprocess",
-            'orderDateTime',
-            TaskStatus.done,
-          ),
-          timelineRow(
-            "11:00",
-            "UX Research",
-            "Larix UX research and wireframing",
-            TaskStatus.inProgress,
-          ),
-          timelineRow(
-            "12:00",
-            "New Project",
-            "creation of new project",
-            TaskStatus.waiting,
-            isLast: true,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget timelineRow(
-      String time, String title, String subTile, TaskStatus status,
-      {bool isLast = false}) {
-    Color color;
-    if (status == TaskStatus.done) {
-      color = Colors.grey.withOpacity(0.6);
-    } else if (status == TaskStatus.inProgress) {
-      color = kPrimaryColor;
-    } else {
-      color = Colors.transparent;
-    }
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          flex: 1,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                width: 20,
-                height: 20,
-                decoration: BoxDecoration(
-                  color: color,
-                  shape: BoxShape.circle,
-                  border: (status == TaskStatus.waiting)
-                      ? Border.all(width: 1, color: Colors.grey)
-                      : null,
-                ),
-                child: (status != TaskStatus.waiting)
-                    ? const Icon(
-                        Icons.done,
-                        size: 12,
-                        color: Colors.white,
-                      )
-                    : const Text(''),
-              ),
-              if (!isLast)
-                Container(
-                  width: 1.5,
-                  height: 70,
-                  decoration: BoxDecoration(
-                    color: status == TaskStatus.inProgress
-                        ? kPrimaryColor
-                        : Colors.grey,
-                    shape: BoxShape.rectangle,
-                  ),
-                  child: const Text(""),
-                ),
-            ],
-          ),
-        ),
-        Expanded(
-          flex: 9,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              if (status == TaskStatus.inProgress)
-                Text(
-                  time,
-                  style: const TextStyle(
-                    color: kPrimaryColor,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14,
-                  ),
-                ),
-              if (status == TaskStatus.inProgress)
-                const SizedBox(
-                  width: 10,
-                ),
-              Expanded(
-                child: InkWell(
-                  onTap: () {
-                    showModalBottomSheet(
-                      transitionAnimationController: AnimationController(
-                        vsync: this,
-                        animationBehavior: AnimationBehavior.preserve,
-                        duration: const Duration(milliseconds: 600),
-                      ),
-                      isScrollControlled: true,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(24),
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(16),
+                          bottomRight: Radius.circular(16),
                         ),
                       ),
-                      context: context,
-                      builder: ((context) => EditBottomSheet(
-                            currentDateTime: currentDateTime,
-                          )),
-                    );
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.only(
-                        top: 8.0, bottom: 8, right: 16, left: 16),
-                    height: 70,
-                    decoration: BoxDecoration(
-                      color: status == TaskStatus.inProgress
-                          ? kPrimaryColor.withOpacity(0.94)
-                          : Colors.white,
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              title,
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                color: status == TaskStatus.inProgress
-                                    ? Colors.white
-                                    : Colors.grey.withOpacity(0.6),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            Text(
-                              subTile,
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: status == TaskStatus.inProgress
-                                    ? Colors.white.withOpacity(0.9)
-                                    : Colors.grey.withOpacity(0.6),
-                              ),
-                            ),
-                          ],
-                        ),
-                        if (status != TaskStatus.inProgress)
-                          Text(
-                            time,
-                            style: const TextStyle(
-                                fontSize: 12, color: Colors.grey),
+                      child: Column(
+                        children: [
+                          const HeaderDashboard(
+                            image: 'assets/images/profile_pic.png',
+                            userConnected: true,
+                            userName: 'ETCAdmin',
+                            userRole: 'HR Manager',
+                            drawerColor: Colors.white,
+                            roleColor: Colors.white,
+                            userNameColor: Colors.white,
                           ),
-                      ],
+                          _datePicker(),
+                          _horizontalCapsuleListView(),
+                        ],
+                      ),
                     ),
                   ),
-                ),
+                  Expanded(
+                    flex: 10,
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  'Daily Task',
+                                  style: TextStyle(
+                                      fontSize: 22,
+                                      color: Color(0xFF000A39),
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                SizedBox(
+                                  width: 45,
+                                  height: 45,
+                                  child: FloatingActionButton(
+                                    backgroundColor: kPrimaryColor,
+                                    onPressed: () {
+                                      showModalBottomSheet(
+                                          transitionAnimationController:
+                                              _animationController,
+                                          isScrollControlled: true,
+                                          shape: const RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.vertical(
+                                              top: Radius.circular(24),
+                                            ),
+                                          ),
+                                          context: context,
+                                          builder: (context) {
+                                            return Container(
+                                              color:
+                                                  Colors.grey.withOpacity(0.1),
+                                              child: CustomButtomSheet(
+                                                currentDateTime:
+                                                    currentDateTime,
+                                              ),
+                                            );
+                                          });
+                                    },
+
+                                    // Get.bottomSheet(builder: (_) { return const CustomButtomSheet(currentDateTime: currentDateTime;});
+                                    //   CustomButtomSheet(
+                                    //     currentDateTime: currentDateTime,
+                                    //   ),
+                                    //   backgroundColor: Colors.white,
+                                    //   enterBottomSheetDuration:
+                                    //       const Duration(milliseconds: 600),
+                                    //   exitBottomSheetDuration:
+                                    //       const Duration(milliseconds: 600),
+                                    //   isScrollControlled: true,
+                                    // );
+
+                                    child: const Icon(
+                                      Icons.add,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            _timeLineTile(),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+                ],
               ),
-            ],
-          ),
-        ),
-      ],
+            ),
+          );
+        }),
+      ),
     );
   }
 
@@ -431,7 +274,7 @@ class _CalendarScreenState extends State<CalendarScreen>
         ),
       );
 
-  Widget horizontalCapsuleListView() {
+  _horizontalCapsuleListView() {
     return Container(
       margin: const EdgeInsets.only(top: 20, left: 16, right: 16),
       width: double.infinity,
@@ -443,13 +286,13 @@ class _CalendarScreenState extends State<CalendarScreen>
         shrinkWrap: true,
         itemCount: currentMonthList.length,
         itemBuilder: (BuildContext context, int index) {
-          return capsuleView(index);
+          return _capsuleView(index);
         },
       ),
     );
   }
 
-  Widget capsuleView(int index) {
+  _capsuleView(int index) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
       child: GestureDetector(
@@ -472,7 +315,8 @@ class _CalendarScreenState extends State<CalendarScreen>
                     begin: const FractionalOffset(0.0, 0.0),
                     end: const FractionalOffset(0.0, 1.0),
                     stops: const [0.0, 0.5, 1.0],
-                    tileMode: TileMode.clamp)
+                    tileMode: TileMode.clamp,
+                  )
                 : null,
             borderRadius: currentMonthList[index].day == currentDateTime.day
                 ? BorderRadius.circular(24)
@@ -506,7 +350,7 @@ class _CalendarScreenState extends State<CalendarScreen>
                   currentMonthList[index].day < 10
                       ? "0${currentMonthList[index].day}"
                       : currentMonthList[index].day.toString(),
-                  textScaleFactor: 1.3,
+                  textScaleFactor: 1.4,
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
                     color: (currentMonthList[index].day == currentDateTime.day)
@@ -519,6 +363,193 @@ class _CalendarScreenState extends State<CalendarScreen>
           ),
         ),
       ),
+    );
+  }
+
+  _timeLineTile() {
+    return Container(
+      margin: const EdgeInsets.only(top: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _timelineRow(
+            "09:00",
+            "Order Confirmed",
+            'orderDateTime',
+            TaskStatus.done,
+          ),
+          _timelineRow(
+            "10:00",
+            "Order Inprocess",
+            'orderDateTime',
+            TaskStatus.done,
+          ),
+          _timelineRow(
+            "11:00",
+            "UX Research",
+            "Larix UX research and wireframing",
+            TaskStatus.inProgress,
+          ),
+          _timelineRow(
+            "12:00",
+            "New Project",
+            "creation of new project",
+            TaskStatus.waiting,
+            isLast: true,
+          ),
+        ],
+      ),
+    );
+  }
+
+  _timelineRow(String time, String title, String subTile, TaskStatus status,
+      {bool isLast = false}) {
+    Color color;
+    if (status == TaskStatus.done) {
+      color = Colors.grey.withOpacity(0.6);
+    } else if (status == TaskStatus.inProgress) {
+      color = kPrimaryColor;
+    } else {
+      color = Colors.transparent;
+    }
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          flex: 1,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                width: 20,
+                height: 20,
+                decoration: BoxDecoration(
+                  color: color,
+                  shape: BoxShape.circle,
+                  border: (status == TaskStatus.waiting)
+                      ? Border.all(width: 1, color: Colors.grey)
+                      : null,
+                ),
+                child: (status != TaskStatus.waiting)
+                    ? const Icon(
+                        Icons.done,
+                        size: 12,
+                        color: Colors.white,
+                      )
+                    : const Text(''),
+              ),
+              if (!isLast)
+                Container(
+                  width: 1.5,
+                  height: 70,
+                  decoration: BoxDecoration(
+                    color: status == TaskStatus.inProgress
+                        ? kPrimaryColor
+                        : Colors.grey,
+                    shape: BoxShape.rectangle,
+                  ),
+                  child: const Text(""),
+                ),
+            ],
+          ),
+        ),
+        Expanded(
+          flex: 9,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              if (status == TaskStatus.inProgress)
+                Text(
+                  time,
+                  style: const TextStyle(
+                    color: kPrimaryColor,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                  ),
+                ),
+              if (status == TaskStatus.inProgress)
+                const SizedBox(
+                  width: 10,
+                ),
+              Expanded(
+                child: InkWell(
+                  onTap: () {
+                    if (TaskStatus.inProgress == status) {
+                      showModalBottomSheet(
+                        transitionAnimationController: _animationController,
+                        isScrollControlled: true,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(24),
+                          ),
+                        ),
+                        context: context,
+                        builder: ((context) => EditBottomSheet(
+                              currentDateTime: currentDateTime,
+                            )),
+                      );
+                    }
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.only(
+                        top: 8.0, bottom: 8, right: 16, left: 16),
+                    height: 70,
+                    decoration: BoxDecoration(
+                      color: status == TaskStatus.inProgress
+                          ? kPrimaryColor.withOpacity(0.94)
+                          : Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              title,
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: status == TaskStatus.inProgress
+                                    ? Colors.white
+                                    : Colors.grey.withOpacity(0.6),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 4,
+                            ),
+                            Text(
+                              subTile,
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: status == TaskStatus.inProgress
+                                    ? Colors.white.withOpacity(0.9)
+                                    : Colors.grey.withOpacity(0.6),
+                              ),
+                            ),
+                          ],
+                        ),
+                        if (status != TaskStatus.inProgress)
+                          Text(
+                            time,
+                            style: const TextStyle(
+                                fontSize: 12, color: Colors.grey),
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

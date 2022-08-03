@@ -33,12 +33,19 @@ class _EditBottomSheetState extends State<EditBottomSheet> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    taskNameController.dispose();
+    descriptionController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
         color: Colors.grey.withOpacity(0.1),
         child: Container(
-          margin: const EdgeInsets.only(top: 10, bottom: 10),
+          margin: const EdgeInsets.only(top: 15, bottom: 15),
           padding: const EdgeInsets.all(16),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
