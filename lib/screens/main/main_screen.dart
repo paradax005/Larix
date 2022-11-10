@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:larix/screens/main/Hr_Indicator/hr_indicator_screen.dart';
 import 'package:larix/screens/main/calendar/calendar_screen.dart';
 import 'package:larix/screens/main/dashboard/dashboard_screen.dart';
@@ -33,10 +32,12 @@ class _MainScreenState extends State<MainScreen> {
           topRight: Radius.circular(25),
         ),
         child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
           selectedFontSize: 12,
           selectedItemColor: kPrimaryColor,
           unselectedItemColor: kSecondaryColor,
           showSelectedLabels: true,
+          showUnselectedLabels: false,
           selectedIconTheme: const IconThemeData(
             color: kPrimaryColor,
           ),

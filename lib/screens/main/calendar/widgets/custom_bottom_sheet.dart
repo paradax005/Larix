@@ -352,7 +352,9 @@ class _CustomButtomSheetState extends State<CustomButtomSheet> {
                               '${getDateFormat(widget.currentDateTime)},${getTimeFormat(startTime)}',
                               // '01-08-2022, 14:00',
                               style: const TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.w500),
+                                  color: Color.fromARGB(255, 75, 95, 123),
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600),
                             ),
                           ),
                         ),
@@ -402,7 +404,9 @@ class _CustomButtomSheetState extends State<CustomButtomSheet> {
                               '${getDateFormat(widget.currentDateTime)},${getTimeFormat(deadlineTime)}',
                               // '01-08-2022, 16:00',
                               style: const TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.w500),
+                                  color: Color.fromARGB(255, 75, 95, 123),
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600),
                             ),
                           ),
                         ),

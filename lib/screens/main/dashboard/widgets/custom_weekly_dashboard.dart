@@ -9,16 +9,13 @@ class CustomWeeklyDashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding:
-            const EdgeInsets.only(top: 12, bottom: 8),
+        padding: const EdgeInsets.only(top: 12, bottom: 16),
         child: Column(
-          mainAxisAlignment:
-              MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Row(
-              mainAxisAlignment:
-                  MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: const [
                 CardWeeklyStats(
                   title: 'Absent Today',
@@ -36,8 +33,7 @@ class CustomWeeklyDashboard extends StatelessWidget {
               height: 6,
             ),
             Row(
-              mainAxisAlignment:
-                  MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: const [
                 CardWeeklyStats(
                   title: 'Expiring Contracts',

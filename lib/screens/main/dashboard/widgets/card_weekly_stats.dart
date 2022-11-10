@@ -17,13 +17,24 @@ class CardWeeklyStats extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(
-          width: 1,
-          color: Colors.white,
+        // border: Border.all(
+        //   width: 2,
+        //   color: Colors.white,
+        // ),
+        gradient: const LinearGradient(
+          colors: [
+            // Color.fromARGB(255, 15, 97, 230),
+            // Color.fromARGB(255, 61, 150, 228),
+            // Color.fromARGB(255, 81, 127, 196)
+            Color.fromARGB(255, 73, 122, 237),
+            Color.fromARGB(255, 87, 78, 234),
+            Color.fromARGB(255, 87, 131, 234),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
-        color: Colors.white.withOpacity(0.5),
         // color: Colors.white.withOpacity(0.4),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
       ),
       height: (MediaQuery.of(context).size.width / 2 - 24) * 0.7,
       width: MediaQuery.of(context).size.width / 2 - 24,
@@ -40,7 +51,7 @@ class CardWeeklyStats extends StatelessWidget {
             children: [
               DashBoardTitle(
                 title: title,
-                color: Colors.black87,
+                color: Colors.white.withOpacity(0.9),
                 size: 14,
               ),
               const SizedBox(
@@ -48,7 +59,7 @@ class CardWeeklyStats extends StatelessWidget {
               ),
               Container(
                 height: 0.8,
-                color: const Color.fromARGB(255, 79, 79, 79),
+                color: const Color.fromARGB(255, 227, 225, 225),
               ),
               const SizedBox(
                 height: 15,
@@ -59,8 +70,8 @@ class CardWeeklyStats extends StatelessWidget {
                   Text(
                     '$number',
                     textScaleFactor: 2,
-                    style: const TextStyle(
-                      color: Colors.black,
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.9),
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -73,14 +84,16 @@ class CardWeeklyStats extends StatelessWidget {
                           ? Text(
                               '+ $percent%',
                               textScaleFactor: 0.9,
-                              style: const TextStyle(
+                              style: TextStyle(
+                                color: Colors.white.withOpacity(0.9),
                                 fontWeight: FontWeight.bold,
                               ),
                             )
                           : Text(
                               '$percent%',
                               textScaleFactor: 0.9,
-                              style: const TextStyle(
+                              style: TextStyle(
+                                color: Colors.white.withOpacity(0.9),
                                 fontWeight: FontWeight.bold,
                               ),
                             ),

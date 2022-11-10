@@ -34,7 +34,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           image: DecorationImage(
             image: AssetImage('assets/images/bg_larix.png'),
             fit: BoxFit.fill,
-            opacity: 0.8,
+            opacity: 0.6,
           ),
         ),
         child: Padding(
@@ -55,7 +55,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     userRole: 'HR Manager',
                     drawerColor: Colors.black26,
                     userNameColor: kPrimaryColor,
-                    roleColor: Colors.grey,
+                    roleColor: Color.fromARGB(255, 108, 107, 107),
                   ),
                 ),
               ),
@@ -76,7 +76,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         maxWidth: MediaQuery.of(context).size.width,
                       ),
                       decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 183, 187, 232)
+                        color: const Color.fromARGB(255, 212, 214, 229)
                             .withOpacity(0.4),
                         border: Border.all(
                           width: 0.5,
@@ -132,6 +132,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               iconPath: Icons.question_mark_rounded,
                               title: 'Pending Requests',
                               nbNotification: 10,
+                            ),
+                            SizedBox(
+                              height: kBottomNavigationBarHeight + 10,
                             ),
                           ],
                         ),

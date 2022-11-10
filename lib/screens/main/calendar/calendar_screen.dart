@@ -16,7 +16,7 @@ class CalendarScreen extends StatefulWidget {
 
 class _CalendarScreenState extends State<CalendarScreen>
     with TickerProviderStateMixin {
-  late ScrollController scrollController;
+  late ScrollController _scrollController;
   late AnimationController _animationController;
 
   List<DateTime> currentMonthList = List.empty();
@@ -40,35 +40,39 @@ class _CalendarScreenState extends State<CalendarScreen>
   ];
 
   // List Of data tasks !
-  final taskData = [];
+  // final taskData = [];
 
   // init state function !
   @override
   void initState() {
     super.initState();
+
     // Setting value of current month !
     dropdownValue = items[currentMonthIndex - 1];
 
+    // Get current month and list of days !
     currentMonthList = date_util.DateUtils.daysInMonth(currentDateTime);
     currentMonthList.sort((a, b) => a.day.compareTo(b.day));
     currentMonthList = currentMonthList.toSet().toList();
-    scrollController =
+
+    // Scroll Controller !
+    _scrollController =
         ScrollController(initialScrollOffset: 70.0 * currentDateTime.day);
 
+    // _animationController = BottomSheet.createAnimationController(this);
+    // _animationController.duration = const Duration(milliseconds: 800);
     _animationController = AnimationController(
       vsync: this,
       animationBehavior: AnimationBehavior.preserve,
       duration: const Duration(milliseconds: 400),
     );
-    // _animationController = BottomSheet.createAnimationController(this);
-    // _animationController.duration = const Duration(milliseconds: 800);
   }
 
   @override
   void dispose() {
-    _animationController.dispose();
-    scrollController.dispose();
     super.dispose();
+    _animationController.dispose();
+    _scrollController.dispose();
   }
 
   @override
@@ -78,15 +82,17 @@ class _CalendarScreenState extends State<CalendarScreen>
       body: Builder(
         builder: ((context) {
           return Container(
-            width: double.infinity,
+            padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
             height: double.infinity,
-            constraints: BoxConstraints.expand(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
+            width: double.infinity,
+            constraints: BoxConstraints(
+              maxHeight: double.infinity,
+              maxWidth: MediaQuery.of(context).size.width,
             ),
-            child: Padding(
-              padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+            child: Expanded(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
                     flex: 5,
@@ -94,11 +100,14 @@ class _CalendarScreenState extends State<CalendarScreen>
                       decoration: const BoxDecoration(
                         gradient: LinearGradient(
                           begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
+                          end: Alignment.bottomLeft,
                           colors: [
                             Color.fromARGB(255, 73, 122, 237),
                             Color.fromARGB(255, 87, 78, 234),
-                            Color.fromARGB(255, 87, 131, 234),
+                            Color.fromARGB(255, 58, 88, 221),
+                            Color.fromARGB(255, 58, 88, 221),
+                            Color.fromARGB(255, 87, 78, 234),
+                            Color.fromARGB(255, 73, 122, 237),
                           ],
                         ),
                         borderRadius: BorderRadius.only(
@@ -125,10 +134,12 @@ class _CalendarScreenState extends State<CalendarScreen>
                   ),
                   Expanded(
                     flex: 10,
-                    child: Padding(
+                    child: Container(
                       padding: const EdgeInsets.all(12),
                       child: SingleChildScrollView(
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -189,6 +200,20 @@ class _CalendarScreenState extends State<CalendarScreen>
                               ],
                             ),
                             _timeLineTile(),
+                            Container(
+                              margin: const EdgeInsets.only(top: 20),
+                              child: const Text(
+                                'Daily Task',
+                                style: TextStyle(
+                                  fontSize: 22,
+                                  color: Color(0xFF000A39),
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: kBottomNavigationBarHeight + 10,
+                            ),
                           ],
                         ),
                       ),
@@ -280,7 +305,7 @@ class _CalendarScreenState extends State<CalendarScreen>
       width: double.infinity,
       height: 60,
       child: ListView.builder(
-        controller: scrollController,
+        controller: _scrollController,
         scrollDirection: Axis.horizontal,
         physics: const ClampingScrollPhysics(),
         shrinkWrap: true,
@@ -446,7 +471,7 @@ class _CalendarScreenState extends State<CalendarScreen>
                   width: 1.5,
                   height: 70,
                   decoration: BoxDecoration(
-                    color: status == TaskStatus.inProgress
+                    color: status != TaskStatus.inProgress
                         ? kPrimaryColor
                         : Colors.grey,
                     shape: BoxShape.rectangle,
@@ -498,9 +523,20 @@ class _CalendarScreenState extends State<CalendarScreen>
                         top: 8.0, bottom: 8, right: 16, left: 16),
                     height: 70,
                     decoration: BoxDecoration(
-                      color: status == TaskStatus.inProgress
-                          ? kPrimaryColor.withOpacity(0.94)
-                          : Colors.white,
+                      gradient: status == TaskStatus.inProgress
+                          ? const LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                Color.fromARGB(255, 87, 78, 234),
+                                Color.fromARGB(255, 58, 88, 221),
+                                Color.fromARGB(255, 58, 88, 221),
+                                Color.fromARGB(255, 87, 78, 234),
+                              ],
+                            )
+                          : null,
+                      color:
+                          status != TaskStatus.inProgress ? Colors.white : null,
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Row(
